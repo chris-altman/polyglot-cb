@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dark-mode">
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">AI Content Generator</h1>
+
+        <!-- Step 1: API Configuration -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Step 1: API Configuration</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="api-key" class="form-label">OpenAI API Key</label>
+                    <input type="password" class="form-control" id="api-key" placeholder="Enter your OpenAI API key">
+                    <div class="form-text">Your API key is used only for this session and is not stored on our server.</div>
+                </div>
+
+                       <!-- ↓↓↓  Model selector cleaned up ↓↓↓ -->
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="model" class="form-label">Model</label>
+                            <select class="form-select" id="model">
+                                <option value="gpt-4o-mini" selected>gpt-4o-mini • low cost / fast</option>
+                                <option value="gpt-4o">gpt-4o • balanced</option>
+                                <option value="gpt-4o-128k">gpt-4o-128k • 128 k context</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="temperature" class="form-label">Temperature: <span id="temp-value">0.7</span></label>
+                            <input type="range" class="form-range" id="temperature" min="0" max="2" step="0.1" value="0.7">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="max-tokens" class="form-label">Max Tokens: <span id="token-value">4000</span></label>
+                            <input type="range" class="form-range" id="max-tokens" min="2000" max="20000" step="1000" value="4000">
+                        </div>
+                            <!-- NEW: Locale controls -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label for="market" class="form-label">Market / Location</label>
+            <input type="text"
+                   class="form-control"
+                   id="market"
+                   list="market-suggestions"
+                   placeholder="e.g. Paris, France">
+                   <datalist id="market-suggestions"></datalist>
+            <div class="form-text">
+                City or country name understood by SerpAPI.
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label for="lang" class="form-label">Interface language&nbsp;(hl)</label>
+            <input type="text"
+                   class="form-control"
+                   id="lang"
+                   value="en"
+                   maxlength="5"
+                   placeholder="e.g. fr">
+            <div class="form-text">
+                Two-letter code (en, fr, de, ja …).
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END locale controls -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Step 2: Input Type -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Step 2: Choose Input Type</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="input-type" id="search-query" value="search">
+                    <label class="form-check-label" for="search-query">Search Query</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="input-type" id="single-url" value="url" checked>
+                    <label class="form-check-label" for="single-url">Single URL</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Input Content -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Step 3: Enter Input</h2>
+            </div>
+            <div class="card-body">
+                <div id="url-input" class="input-section">
+                    <div class="mb-3">
+                        <label for="url" class="form-label">URL</label>
+                        <input type="url" class="form-control" id="url" placeholder="https://example.com">
+                        <div class="form-text">Enter a valid URL to analyze its content.</div>
+                    </div>
+                </div>
+
+                <div id="query-input" class="input-section d-none">
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Search Query</label>
+                        <input type="text" class="form-control" id="query" placeholder="Enter your search query">
+                        <div class="form-text">We'll search for the top 3 results related to your query.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Article Length -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Step 4: Choose Article Length</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="article-length" id="short" value="short">
+                    <label class="form-check-label" for="short">Short (~500 words)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="article-length" id="medium" value="medium" checked>
+                    <label class="form-check-label" for="medium">Medium (~1500-2500 words)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="article-length" id="long" value="long">
+                    <label class="form-check-label" for="long">Long (3000+ words)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Button -->
+        <div class="d-grid gap-2 mb-4">
+            <button id="generate-btn" class="btn btn-primary btn-lg">Generate Content</button>
+        </div>
+
+        <!-- Processing Indicator -->
+        <div id="processing" class="text-center mb-4 d-none">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Processing... Please wait.</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="card mb-4 d-none">
+            <div class="card-header">
+                <h2>Generated Content</h2>
+            </div>
+            <div class="card-body">
+                <div id="result-content" class="mb-4"></div>
+
+                <hr class="my-4">
+
+                <h3>Continue the Conversation</h3>
+                <div class="mb-3">
+                    <label for="chat-input" class="form-label">Your Message</label>
+                    <textarea class="form-control" id="chat-input" rows="3" placeholder="Enter your follow-up message or instructions..."></textarea>
+                </div>
+                <button id="send-chat" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="error-alert" class="alert alert-danger d-none" role="alert">
+            <strong>Error!</strong> <span id="error-message"></span>
+        </div>
+    </div>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span class="text-muted"><a href="https://internetcheckpoint.page/zK4TWXWEKAQ"style="color: #8c52ff">t a k e  a  b r e a k</a></span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
