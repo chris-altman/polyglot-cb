@@ -124,7 +124,7 @@
         },
         "prohibited_operators": []
       }
-    }
-    /* add more jurisdictions here as needed */
+    },
+    "_note": "Add more jurisdictions here as needed"
   }
 }

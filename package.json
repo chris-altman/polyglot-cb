@@ -5,7 +5,7 @@
   "description": "Multilingual content generation assistant with location-aware prompts, SerpAPI integration, and OpenAI completions.",
   "main": "src/index.js",
   "scripts": {
-    "start": "wrangler dev --remote",
+    "start": "wrangler dev",
     "deploy": "wrangler deploy"
   },
   "dependencies": {

@@ -2,16 +2,7 @@ name = "polyglot-cb"
 main = "src/index.js"
 compatibility_date = "2025-06-12"
 
+workers_dev = true
+
 [vars]
 ENV = "development"
-
-[[routes]]
-pattern = "polyglot-cb.chrisaltman.workers.dev"
-zone_id = ""  # optional if not routing to custom domain
-
-[build.upload]
-format = "modules"
-dir = "./src"
-
-[site]
-bucket = "./public"
