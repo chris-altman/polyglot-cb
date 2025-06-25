@@ -6,3 +6,8 @@ workers_dev = true
 
 [vars]
 ENV = "development"
+
+[[kv_namespaces]]
+binding = "SESSION_STORE"
+id = "1dcca2ed53504d3cad91cbc2bc5a9205"
+preview_id = "a07bb434cf694123813ac1a10b4ef0ca"
