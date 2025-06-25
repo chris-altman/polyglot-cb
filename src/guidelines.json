@@ -14,10 +14,12 @@
           "FABULOUS APP! FUN AND ENGAGING! DON'T MISS OUT!",
           "This immersive app lets you play and feel like you're right in the center of the action!",
           "Experience the thrill like never before!",
-          "Revolutionary gaming experience that will blow your mind!"
+          "Revolutionary gaming experience that will blow your mind!",
+          "BetMGM stands out as a premier online sports betting platform for residents in Detroit, Michigan. With generous bonuses, a user-friendly app, and a commitment to responsible gambling, it's a solid choice for anyone looking to place wagers on their favorite sports."
         ],
         "prefer": "The app works well for most users, though the interface could be more intuitive.",
-        "pattern_to_avoid": "Hyperbolic claims, sensationalized language, artificial excitement, and marketing copy that sounds like it's trying to sell rather than inform"
+        "pattern_to_avoid": "Hyperbolic claims, sensationalized language, artificial excitement, marketing copy that sounds like it's trying to sell rather than inform",
+        "overused_words_to_avoid": ["premier", "generous", "solid choice", "stands out", "commitment to responsible gambling", "user-friendly", "exciting", "amazing", "incredible", "outstanding", "exceptional"]
       }
     },
     "contextual_awareness": {
@@ -81,8 +83,8 @@
   },
 
   "metadata": {
-    "version": "1.1",
-    "focus": "Authentic, compliant, context-aware iGaming content",
+    "version": "1.10",
+    "focus": "Authentic, compliant, context-aware iGaming content that avoids marketing copy",
     "last_updated": "2025-06-25"
   }
 }
