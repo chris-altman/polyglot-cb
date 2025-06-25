@@ -51,11 +51,6 @@ export function buildSystemPrompt(lang = "en", market = "United States") {
   return systemPrompt;
 }
 
-// Right after building the system prompt
-const systemMsg = buildSystemPrompt(lang, market);
-console.log('System prompt being used:', systemMsg);
-console.log('Market:', market, 'Lang:', lang);
-
 function getJurisdictionFromMarket(market) {
   const marketLower = market.toLowerCase();
   

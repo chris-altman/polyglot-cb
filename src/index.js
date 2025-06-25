@@ -93,7 +93,8 @@ export default {
 
         // Build system prompt using guidelines
         const systemMsg = buildSystemPrompt(lang, market);
-        
+        console.log('System prompt being used:', systemMsg);
+        console.log('Market:', market, 'Lang:', lang);
         const messages = [
           { role: "system", content: systemMsg },
           {
