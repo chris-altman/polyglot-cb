@@ -1,6 +1,9 @@
 // src/serp.js
-export default async function serpSearch(query, location = "United States", lang = "en") {
-  const apiKey = SERPAPI_KEY; // must be bound via Wrangler secret
+export default async function serpSearch(query, location = "United States", lang = "en", env) {
+  if (!env.SERPAPI_KEY) {
+    return `Search results for: ${query}\n\n[Note: SERPAPI_KEY not configured, using placeholder results]`;
+  }
+
   const endpoint = "https://serpapi.com/search.json";
   const params = new URLSearchParams({
     engine: "google",
@@ -8,7 +11,7 @@ export default async function serpSearch(query, location = "United States", lang
     location,
     hl: lang,
     num: 3,
-    api_key: apiKey
+    api_key: env.SERPAPI_KEY
   });
 
   try {
