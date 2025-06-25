@@ -48,6 +48,14 @@
     }
   },
 
+  "tone": {
+    "voice": "conversational",
+    "perspective": "second_person", 
+    "formality": "casual",
+    "contractions": "use_naturally",
+    "sentence_variety": "mixed_length"
+  },
+
   "content_guidelines": {
     "audience": "Adults 21-65, assume basic gambling knowledge but explain complex concepts clearly",
     "voice": "Conversational, informed, honest - like a knowledgeable friend sharing insights",
@@ -70,8 +78,8 @@
   },
 
   "metadata": {
-    "version": "1.0",
+    "version": "1.1",
     "focus": "Authentic, compliant, context-aware iGaming content",
-    "last_updated": "2025-06-24"
+    "last_updated": "2025-06-25"
   }
 }
