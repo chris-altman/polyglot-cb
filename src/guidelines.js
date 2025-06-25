@@ -46,7 +46,7 @@ export function buildSystemPrompt(lang = "en", market = "United States") {
   }
   
   // Language instruction
-  systemPrompt += `\n\nLANGUAGE: Write EVERYTHING in ${lang}. Every word must be in ${lang}.`;
+  systemPrompt += `\n\nLANGUAGE: Primary language is ${lang}. You can write in other languages when specifically requested by the user.`;
   
   return systemPrompt;
 }
