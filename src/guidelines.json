@@ -50,10 +50,13 @@
 
   "tone": {
     "voice": "conversational",
-    "perspective": "second_person", 
+    "perspective": "second_person",
+    "balance": "entertainment_and_risk",
     "formality": "casual",
-    "contractions": "use_naturally",
-    "sentence_variety": "mixed_length"
+    "max_sentence_length": 20,
+    "avoid_jargon": true,
+    "contraction_rate": "high",
+    "use_contractions": true
   },
 
   "content_guidelines": {
