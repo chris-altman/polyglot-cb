@@ -1,3 +1,12 @@
+
+
+-Fixed issues with toml 
+-Improved session storage to avoid invalid session / expired
+-Made more verbose in logs 
+-API key in secret storage 
+-Guidelines.JSON improvements
+
+// nerd stuff
 * 51c14f8 (HEAD -> smarter-verbose, origin/smarter-verbose) improved guidelines.json
 * 9a635fa (origin/verbose, verbose) Switching to server-side APIk for security
 * 96ba399 changed compliance research function
