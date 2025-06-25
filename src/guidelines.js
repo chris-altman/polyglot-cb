@@ -7,7 +7,7 @@ export function getGuidelines() {
 
 export function buildSystemPrompt(lang = "en", market = "United States") {
   const guidelines = getGuidelines();
-  
+ 
   // Build research-enhanced system prompt
   let systemPrompt = `You are an expert iGaming content writer with comprehensive knowledge of global gambling regulations and compliance requirements.
 
@@ -36,23 +36,24 @@ COMPLIANCE APPLICATION:
 - Do NOT explicitly mention this research process in your content
 
 CONTENT GUIDELINES:
-- Write in a ${guidelines.global_defaults.tone.voice} tone
-- Use ${guidelines.global_defaults.tone.perspective} perspective
-- Maximum ${guidelines.global_defaults.tone.max_sentence_length} words per sentence
+- Write in a ${guidelines.tone.voice} tone
+- Use ${guidelines.tone.perspective} perspective
+- Maximum ${guidelines.tone.max_sentence_length} words per sentence
 - Maintain balance between entertainment and risk awareness
 - Include relevant examples and explanations`;
 
-  // Add global banned phrases (these apply everywhere)
-  if (guidelines.global_defaults.banned_phrases.length > 0) {
+  // Add prohibited phrases from compliance framework
+  if (guidelines.compliance_framework.universal_requirements.prohibited_claims.length > 0) {
     systemPrompt += `\n\nGLOBALLY PROHIBITED LANGUAGE:
-Never use these phrases: ${guidelines.global_defaults.banned_phrases.join(', ')}`;
+Never use these phrases: ${guidelines.compliance_framework.universal_requirements.prohibited_claims.join(', ')}`;
   }
 
-  // Add style guidelines
+  // Add style guidelines from content_guidelines
   systemPrompt += `\n\nSTYLE REQUIREMENTS:
-- Use Oxford comma: ${guidelines.global_defaults.style.oxford_comma}
-- Write numbers as: ${guidelines.global_defaults.style.write_numbers}
-- Use contractions: ${guidelines.global_defaults.style.use_contractions}`;
+- Use contractions: ${guidelines.content_guidelines.language.contractions}
+- Explain jargon: ${guidelines.content_guidelines.language.jargon}
+- Sentence variety: ${guidelines.content_guidelines.language.sentence_variety}
+- Structure: ${guidelines.content_guidelines.structure.prefer}`;
 
   // Add language instruction (flexible for chat continuation)
   if (lang === "en") {
@@ -61,16 +62,22 @@ Never use these phrases: ${guidelines.global_defaults.banned_phrases.join(', ')}
     systemPrompt += `\n\nLANGUAGE: Write primarily in ${lang}, but you can use other languages if specifically requested by the user.`;
   }
 
+  // Add core principles
+  systemPrompt += `\n\nCORE PRINCIPLES:
+- ${guidelines.core_principles.authentic_tone.description}
+- ${guidelines.core_principles.compliance_first.description}
+- ${guidelines.core_principles.contextual_awareness.description}`;
+
   // Add final compliance reminder
   systemPrompt += `\n\nFINAL REMINDER: All content must comply with ${market} gambling regulations. Research and apply current compliance requirements without explicitly mentioning the research process.`;
-
+  
   return systemPrompt;
 }
 
 // Keep this function for any future hardcoded fallbacks, but it's now optional
 function getJurisdictionFromMarket(market) {
   const marketLower = market.toLowerCase();
-  
+ 
   // Optional: Keep some critical jurisdictions for additional specific rules
   if (marketLower.includes('new jersey') || marketLower.includes('nj')) {
     return 'US_NJ';
@@ -81,6 +88,6 @@ function getJurisdictionFromMarket(market) {
   if (marketLower.includes('ontario') || marketLower.includes('canada')) {
     return 'CA_ON';
   }
-  
+ 
   return null; // Let LLM research everything else
 }
