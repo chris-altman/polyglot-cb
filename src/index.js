@@ -125,7 +125,7 @@ ${content}`
         const session_id = crypto.randomUUID();
         
         // Store session in KV with TTL
-        env.SESSION_STORE.put(session_id, JSON.stringify({
+        await env.SESSION_STORE.put(session_id, JSON.stringify({
           model, 
           messages: [...messages, { role: "assistant", content: reply }] 
         }), { expirationTtl: 3600 });
@@ -172,7 +172,7 @@ ${content}`
         const reply = chat.choices[0].message.content;
         
         // Update session in KV with TTL
-        env.SESSION_STORE.put(session_id, JSON.stringify({
+        await env.SESSION_STORE.put(session_id, JSON.stringify({
           model, 
           messages: [...messages, { role: "assistant", content: reply }] 
         }), { expirationTtl: 3600 });
