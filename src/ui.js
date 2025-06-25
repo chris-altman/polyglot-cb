@@ -17,19 +17,9 @@ export function getHTMLContent() {
 
         <div class="card mb-4">
             <div class="card-header">
-                <h2>Step 1: API Configuration</h2>
+                <h2>Step 1: Configuration</h2>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <label for="api-key" class="form-label">OpenAI API Key</label>
-                            <input type="password" class="form-control" id="api-key" placeholder="Enter your OpenAI API key">
-                            <div class="form-text">Your API key is used only for this session and is not stored on our server.</div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
@@ -129,8 +119,7 @@ export function getHTMLContent() {
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="article-length" id="long" value="long">
-                    <label class="form-check-label" for="long">
-                    Long (3000+ words)</label>
+                    <label class="form-check-label" for="long">Long (3000+ words)</label>
                 </div>
             </div>
         </div>
@@ -412,9 +401,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function validateInputs() {
-    const apiKey = document.getElementById('api-key').value.trim();
-    if (!apiKey) return showError('Please enter your OpenAI API key.');
-
     const inputType = document.querySelector('input[name="input-type"]:checked').value;
     if (inputType === 'url') {
         const url = document.getElementById('url').value.trim();
@@ -460,7 +446,6 @@ async function generateContent() {
     showProcessing(true);
 
     const requestData = {
-        api_key: document.getElementById('api-key').value.trim(),
         model: document.getElementById('model').value,
         temperature: document.getElementById('temperature').value,
         max_tokens: document.getElementById('max-tokens').value,
@@ -514,10 +499,7 @@ async function continueChat() {
     showProcessing(true);
 
     const requestData = {
-        api_key: document.getElementById('api-key').value.trim(),
         model: document.getElementById('model').value,
-        market: document.getElementById('market').value.trim() || "United States",
-        lang: document.getElementById('lang').value.trim() || "en",
         temperature: document.getElementById('temperature').value,
         max_tokens: document.getElementById('max-tokens').value,
         message: message,

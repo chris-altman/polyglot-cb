@@ -13,6 +13,9 @@ export default {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
     };
 
     if (request.method === 'OPTIONS') {
@@ -51,8 +54,13 @@ export default {
     // Content generation endpoint
     if (request.method === "POST" && url.pathname === "/process") {
       try {
+        // Check if API key is available
+        if (!env.OPENAI_API_KEY) {
+          return jsonError("OpenAI API key not configured on server.", corsHeaders);
+        }
+
         const data = await request.json();
-        const openai = new OpenAI({ apiKey: data.api_key });
+        const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY }); // Use server's API key
         
         const {
           model = "gpt-4o-mini",
@@ -93,8 +101,7 @@ export default {
 
         // Build system prompt using guidelines
         const systemMsg = buildSystemPrompt(lang, market);
-        console.log('System prompt being used:', systemMsg);
-        console.log('Market:', market, 'Lang:', lang);
+        
         const messages = [
           { role: "system", content: systemMsg },
           {
@@ -140,15 +147,20 @@ ${content}`
     // Chat continuation endpoint
     if (request.method === "POST" && url.pathname === "/continue_chat") {
       try {
+        // Check if API key is available
+        if (!env.OPENAI_API_KEY) {
+          return jsonError("OpenAI API key not configured on server.", corsHeaders);
+        }
+
         const data = await request.json();
         const {
-          api_key, session_id, message, 
+          session_id, message, 
           model = "gpt-4o-mini", 
           temperature = 0.7, 
           max_tokens = 4000
         } = data;
 
-        const openai = new OpenAI({ apiKey: api_key });
+        const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY }); // Use server's API key
         
         // Get session from KV
         const sessionData = await env.SESSION_STORE.get(session_id);
